@@ -1,0 +1,20 @@
+[KDiskFree]
+Device=100
+Free=80
+Full%=50
+HeaderSectionIndices=0,1,2,3,4,5,6,7
+Icon=26
+MountPoint=120
+Size=80
+SortColumn=0
+SortOrder=0
+Type=80
+UsageBar=200
+
+[MainWindow]
+DP-0 DP-2 Height 2560x1440=700
+DP-0 DP-2 Width 2560x1440=636
+DP-0 DP-2 XPosition 2560x1440=1922
+DP-0 DP-2 YPosition 2560x1440=2146
+State=AAAA/wAAAAD9AAAAAAAAAnwAAAKSAAAABAAAAAQAAAAIAAAACPwAAAAA
+ToolBarsMovable=Disabled

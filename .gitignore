@@ -1,0 +1,19 @@
+# ignore everything
+# except top-level directories (directories aren't tracked, so this allows individual files to be "whitelisted")
+*
+!*/
+
+# need to explicitly exclude directories with nested repos for some reason
+mnt
+nix-projects
+
+!/.config/**
+
+# these projects use .config as a cache for some reason
+/.config/spotify
+/.config/discord
+/.config/REAPER
+/.config/Code
+
+!/.gitignore
+!/.Xresources
