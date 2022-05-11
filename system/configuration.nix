@@ -175,13 +175,16 @@
       credential.helper = "libsecret";
       user.name = "Michael Manis";
       user.email = "michaelmanis@tutanota.com";
+      user.signingkey = "0F9BB19D64F8154D";
       init.defaultBranch = "master";
     };
   };
 
+  programs.ssh.startAgent = true;
+
   programs.gnupg = {
     agent.enable = true;
-    agent.pinentryFlavor = "qt";
+    agent.pinentryFlavor = "curses";
   };
 
 security.acme.acceptTerms = true;  
@@ -243,6 +246,7 @@ services.nginx = {
     pinentry pinentry-qt
     gnumake
     cmake
+    openssh
 
     # FUN
     spotify
