@@ -198,6 +198,9 @@ for_window [class="^QjackCtl$"] floating enable
 
 
 exec_always --no-startup-id $HOME/.config/i3/startup.sh
+exec_always feh --bg-scale $HOME/Pictures/Wallpapers/desktop.png
+
+
 # exec_always killall -q .polybar-wrapper polybar
 # exec_always --no-startup-id polybar primary --config=$HOME/.config/polybar/config.ini 2>&1 | tee -a /tmp/polybar.log & disown
 # exec_always --no-startup-id polybar secondary --config=$HOME/.config/polybar/config.ini 2>&1 | tee -a /tmp/polybar.log & disown

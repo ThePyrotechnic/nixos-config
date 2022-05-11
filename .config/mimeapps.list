@@ -1,0 +1,9 @@
+[Added Associations]
+image/gif=meh-2.desktop;
+image/jpeg=meh.desktop;
+x-scheme-handler/tg=userapp-Telegram Desktop-33J3L1.desktop;
+
+[Default Applications]
+image/gif=meh-2.desktop;
+image/jpeg=meh.desktop;
+x-scheme-handler/tg=userapp-Telegram Desktop-33J3L1.desktop
