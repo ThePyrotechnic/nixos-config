@@ -16,6 +16,13 @@ nix-projects
 /.config/pulse
 Documents
 
+# remove state files
+**/*.state
+
+# remove logs
+**/logs
+**/*.log
+
 # Directories to INCLUDE
 !/.git-crypt/**
 !/system/**
