@@ -1,2 +1,3 @@
 .secrets/** filter=git-crypt diff=git-crypt
 system/secrets.json filter=git-crypt diff=git-crypt
+.config/tiny/config.yml filter=git-crypt diff=git-crypt

@@ -1,9 +1,11 @@
 [Added Associations]
+application/zip=unzip.desktop;
 image/gif=meh-2.desktop;
 image/jpeg=meh.desktop;
 x-scheme-handler/tg=userapp-Telegram Desktop-33J3L1.desktop;
 
 [Default Applications]
+application/zip=unzip.desktop;
 image/gif=meh-2.desktop;
 image/jpeg=meh.desktop;
 x-scheme-handler/tg=userapp-Telegram Desktop-33J3L1.desktop

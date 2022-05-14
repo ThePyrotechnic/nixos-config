@@ -154,13 +154,19 @@
   # Enable touchpad support (enabled default in most desktopManager).
   # services.xserver.libinput.enable = true;
 
+  users.groups = { 
+    webdirs = {
+      members = [ "michael" "nginx" ];
+    };
+  };
+
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.michael = {
     isNormalUser = true;
     initialPassword = "1234asdf";
     extraGroups = [ "wheel" "jackaudio" "audio" ];
   };
-  
+ 
   nixpkgs.config = {
     allowUnfree = true;
   };
@@ -187,26 +193,30 @@
     agent.pinentryFlavor = "curses";
   };
 
-security.acme.acceptTerms = true;  
-security.acme.email = "michaelmanis@tutanota.com";
-security.acme.certs."michaelmanis.com" = {
-  group = "nginx";
-  domain = "*.michaelmanis.com";
-  dnsProvider = "route53";
-  credentialsFile = 
-    let
-      secrets = (lib.importJSON ./secrets.json).acme.route53;
-    in
-      pkgs.writeText "route53-credentials" ''
-        AWS_REGION=us-east-2
-        AWS_ACCESS_KEY_ID=${secrets.key}
-        AWS_SECRET_ACCESS_KEY=${secrets.secret}
-        AWS_HOSTED_ZONE_ID=${secrets.zoneid}
-      '';
-  dnsPropagationCheck = true;
-};
+  security.acme.acceptTerms = true;  
+  security.acme.email = "michaelmanis@tutanota.com";
+  security.acme.certs."michaelmanis.com" = {
+    group = "nginx";
+    domain = "*.michaelmanis.com";
+    dnsProvider = "route53";
+    credentialsFile = 
+      let
+        secrets = (lib.importJSON ./secrets.json).acme.route53;
+      in
+        pkgs.writeText "route53-credentials" ''
+          AWS_REGION=us-east-2
+          AWS_ACCESS_KEY_ID=${secrets.key}
+          AWS_SECRET_ACCESS_KEY=${secrets.secret}
+          AWS_HOSTED_ZONE_ID=${secrets.zoneid}
+        '';
+    dnsPropagationCheck = true;
+  };
 
-services.nginx = {
+  services.gnome.gnome-keyring.enable = true;
+
+  systemd.services.nginx.serviceConfig.ReadOnlyPaths = "/var/www";
+
+  services.nginx = {
     enable = true;
     virtualHosts = {
       "5e.michaelmanis.com" = {
@@ -220,14 +230,54 @@ services.nginx = {
 
         forceSSL = true;
         useACMEHost = "michaelmanis.com";
-        root = /home/michael/Documents/5etools-mirror-1.github.io;
-        extraConfig = ''
+
+        
+      extraConfig = ''
+         root /var/www/5etools-mirror-1.github.io;
          add_header 'Access-Control-Allow-Origin' 'https://foundry.michaelmanis.com:5000';
          add_header 'Access-Control-Allow-Methods' 'GET,OPTIONS'; 
         '';
       };
+
+      "foundry.michaelmanis.com" = {
+        listen = [
+          {
+            addr = "0.0.0.0";
+            port = 5000;
+            ssl = true;
+          }
+        ];
+
+        forceSSL = true;
+        useACMEHost = "michaelmanis.com";
+        
+        extraConfig = ''
+          ssl_ciphers               HIGH:!aNULL:!MD5;
+          ssl_session_timeout       5m;
+          ssl_session_cache         shared:SSL:1m;
+          ssl_prefer_server_ciphers on;
+
+          client_max_body_size 300M;
+        '';       
+ 
+        locations = {
+          "/" = {
+            proxyPass = "http://localhost:30000";
+            proxyWebsockets = true;
+            extraConfig = ''
+              proxy_set_header Host $host;
+              proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+              proxy_set_header X-Forwarded-Proto $scheme;
+              proxy_set_header Upgrade $http_upgrade;
+              proxy_set_header Connection "Upgrade";
+            '';
+          };
+        };
+      };
     };
   };
+
+
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
@@ -247,6 +297,9 @@ services.nginx = {
     gnumake
     cmake
     openssh
+    nodejs
+    cmake
+    gcc
 
     # FUN
     spotify
@@ -276,6 +329,7 @@ services.nginx = {
     pciutils
     nginx
     awscli
+    tiny
 
     # MEDIA
     mpv

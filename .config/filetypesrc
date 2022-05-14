@@ -1,3 +1,4 @@
 [EmbedSettings]
+embed-application/zip=false
 embed-image/gif=false
 embed-image/jpeg=false

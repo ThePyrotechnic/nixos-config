@@ -24,6 +24,7 @@ Documents
 **/*.log
 
 # Directories to INCLUDE
+!/bin/**
 !/.git-crypt/**
 !/system/**
 
@@ -31,3 +32,11 @@ Documents
 !/.gitattributes
 !/.gitignore
 !/.Xresources
+
+# remove state files
+**/*.state
+
+# remove logs
+**/logs
+**/*.log
+
