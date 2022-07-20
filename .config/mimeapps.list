@@ -1,11 +1,15 @@
 [Added Associations]
+application/pdf=okular.desktop;mupdf-2.desktop;
 application/zip=unzip.desktop;
 image/gif=meh-2.desktop;
-image/jpeg=meh.desktop;
-x-scheme-handler/tg=userapp-Telegram Desktop-33J3L1.desktop;
+image/jpeg=feh-2.desktop;meh.desktop;
+text/plain=code.desktop;
+x-scheme-handler/tg=userapp-Telegram Desktop-33J3L1.desktop;userapp-Telegram Desktop-2C5BO1.desktop;
 
 [Default Applications]
+application/pdf=okular.desktop;
 application/zip=unzip.desktop;
 image/gif=meh-2.desktop;
-image/jpeg=meh.desktop;
-x-scheme-handler/tg=userapp-Telegram Desktop-33J3L1.desktop
+image/jpeg=feh-2.desktop;
+text/plain=code.desktop;
+x-scheme-handler/tg=userapp-Telegram Desktop-2C5BO1.desktop

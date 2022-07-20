@@ -1,0 +1,26 @@
+# GIMP action-history
+
+(history-item "edit-clear" 4)
+(history-item "select-none" 0)
+(history-item "edit-paste" 2)
+(history-item "image-duplicate" 1)
+(history-item "file-export-as" 1)
+(history-item "layers-new" 1)
+(history-item "tools-text" 0)
+(history-item "select-all" 0)
+(history-item "file-quit" 1)
+(history-item "file-open" 0)
+(history-item "edit-cut" 0)
+(history-item "tools-by-color-select" 0)
+(history-item "layers-delete" 1)
+(history-item "filters-dropshadow" 0)
+(history-item "tools-by-color-select-short" 0)
+(history-item "layers-scale" 0)
+(history-item "layers-new-group" 0)
+(history-item "tools-fuzzy-select" 0)
+(history-item "tools-unified-transform" 0)
+(history-item "edit-copy" 0)
+(history-item "file-export" 0)
+(history-item "image-new" 1)
+
+# end of action-history

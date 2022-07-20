@@ -14,6 +14,19 @@ nix-projects
 /.config/REAPER
 /.config/Code
 /.config/pulse
+/.config/obs-studio
+/.config/obs-studio/profiler_data
+/.config/heroic
+/.config/legendary
+/.config/Signal
+/.config/cef_user_data
+/.config/deluge/state
+/.config/deluge/archive
+/.config/deluge/gtk3ui_state
+/.config/lutris
+
+/.local/share/FoundryVTT
+
 Documents
 
 # remove state files

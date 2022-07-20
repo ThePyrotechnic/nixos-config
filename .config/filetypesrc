@@ -1,4 +1,6 @@
 [EmbedSettings]
+embed-application/pdf=false
 embed-application/zip=false
 embed-image/gif=false
 embed-image/jpeg=false
+embed-text/plain=false

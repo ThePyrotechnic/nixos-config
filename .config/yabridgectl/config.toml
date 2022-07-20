@@ -1,0 +1,8 @@
+method = 'copy'
+plugin_dirs = ['/home/michael/.vst3/Windows']
+no_verify = false
+blacklist = []
+
+[last_known_config]
+wine_version = 'wine-6.22 (Staging)'
+yabridge_host_hash = 1807495078011299176

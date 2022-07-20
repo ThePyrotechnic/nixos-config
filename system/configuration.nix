@@ -8,6 +8,7 @@
   imports =
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
+      ./vmware.nix
     ];
 
   # Use the systemd-boot EFI boot loader.
@@ -67,6 +68,12 @@
 
   # Select internationalisation properties.
   i18n.defaultLocale = "en_US.UTF-8";
+  i18n.supportedLocales = [
+    "en_US.UTF-8/UTF-8"
+    "en_US/ISO-8859-1"
+    "ja_JP.EUC-JP/EUC-JP"
+    "ja_JP.UTF-8/UTF-8"
+  ];
   console = {
     font = "Lat2-Terminus16";
     keyMap = "us";
@@ -108,7 +115,7 @@
     };
 
     screenSection = ''
-      Option         "metamodes" "DP-2: nvidia-auto-select +0+0, DP-0: nvidia-auto-select +0+1440"
+      Option         "metamodes" "DP-2: 2560x1440_144 +0+0, DP-0: 2560x1440_144 +0+1440"
     '';
 
     windowManager.i3 = {
@@ -121,6 +128,10 @@
         playerctl 
      ];
     };
+  };
+
+  xdg.mime.defaultApplications = {
+    "inode/directory" = "org.kde.dolphin.desktop";
   };
 
   hardware.nvidia.nvidiaSettings = true;
@@ -141,6 +152,13 @@
   #   enable = true;
   #   alsaSeq.enable = true;  
   # };
+
+  services.jenkins = {
+    enable = true;
+
+    prefix = "/jenkins";
+    home = "/nvmestorage/jenkins";
+  };
  
   services.jack = {
     jackd.enable = true;
@@ -148,7 +166,7 @@
     loopback = {
       enable = true;
     };
-    jackd.extraOptions = [ "-dalsa" "--device" "hw:USB" "--rate" "48000" ];
+    jackd.extraOptions = [ "-dalsa" "--device" "hw:MK2" "--rate" "48000"];
   };
 
   # Enable touchpad support (enabled default in most desktopManager).
@@ -164,7 +182,7 @@
   users.users.michael = {
     isNormalUser = true;
     initialPassword = "1234asdf";
-    extraGroups = [ "wheel" "jackaudio" "audio" ];
+    extraGroups = [ "wheel" "jackaudio" "audio" "docker" "nginx" ];
   };
  
   nixpkgs.config = {
@@ -194,7 +212,7 @@
   };
 
   security.acme.acceptTerms = true;  
-  security.acme.email = "michaelmanis@tutanota.com";
+  security.acme.defaults.email = "michaelmanis@tutanota.com";
   security.acme.certs."michaelmanis.com" = {
     group = "nginx";
     domain = "*.michaelmanis.com";
@@ -218,7 +236,31 @@
 
   services.nginx = {
     enable = true;
+    
+    logError = "stderr debug";
+
+    additionalModules = [ pkgs.nginxModules.rtmp ];
+
     virtualHosts = {
+      "live.michaelmanis.com" = {
+        listen = [
+          {
+            addr = "0.0.0.0";
+            port = 5000;
+            ssl = true;
+          }
+        ];
+        
+        forceSSL = true;
+        useACMEHost = "michaelmanis.com";
+
+        locations = {
+          "/" = {
+            proxyPass = "http://127.0.0.1:8080$request_uri";
+          };
+        };
+      };      
+
       "5e.michaelmanis.com" = {
         listen = [
           {
@@ -236,6 +278,20 @@
          root /var/www/5etools-mirror-1.github.io;
          add_header 'Access-Control-Allow-Origin' 'https://foundry.michaelmanis.com:5000';
          add_header 'Access-Control-Allow-Methods' 'GET,OPTIONS'; 
+        '';
+      };
+
+      "192.168.1.195" = {
+        listen = [
+          {
+            addr = "0.0.0.0";
+            port = 5001;
+            ssl = false;
+          }
+        ];
+
+        extraConfig = ''
+          root /var/www/local;
         '';
       };
 
@@ -263,7 +319,6 @@
         locations = {
           "/" = {
             proxyPass = "http://localhost:30000";
-            proxyWebsockets = true;
             extraConfig = ''
               proxy_set_header Host $host;
               proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
@@ -277,7 +332,7 @@
     };
   };
 
-
+  virtualisation.docker.enable = true;
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
@@ -300,11 +355,18 @@
     nodejs
     cmake
     gcc
+    clang
+    clang-tools
 
     # FUN
-    spotify
     dolphin-emu
     frotz
+    devilutionx
+    lutris
+    polymc
+    xivlauncher
+    heroic
+    legendary-gl
     
     # MESSAGING
     discord
@@ -323,32 +385,61 @@
     xorg.xprop
     xorg.xev
     xclip
-    vmware-horizon-client
     pavucontrol
     usbutils
     pciutils
     nginx
     awscli
     tiny
+    wineWowPackages.staging winetricks protontricks protonup
+    yabridge yabridgectl
+    psensor
+    mitmproxy
+    xdotool
+    rustc
+    nss
+    aria
+    smem
+    gnome.zenity
+    p7zip
+    rar
+    pick-colour-picker
+    libimobiledevice
+    usbmuxd
+    ifuse
+    mslink
+    trickle
+    linuxKernel.packages.linux_5_15.v4l2loopback
 
     # MEDIA
     mpv
+    spotify
     audacity
     scrot
     obs-studio
-    jack2 libjack2 qjackctl jack2Full jack_capture
+    qjackctl jack_capture
     reaper
     libsForQt5.ffmpegthumbs
     libsForQt5.kdegraphics-thumbnailers
     libsForQt5.kio-extras
     libsForQt5.kfind
     feh
+    ffmpeg
+    kdenlive
+    mixxx
+    krita
+    gimp
+    okular
+    pulsemixer
+    inkscape
 
     # PYTHON
     (let 
       custom-packages = python-packages: with python-packages; [ 
         requests
         pyyaml
+        waitress
+        flask
       ];
       python-with-packages = python3.withPackages custom-packages;
     in
@@ -362,9 +453,13 @@ fileSystems = {
     device = "/dev/nvme0n1p3";
     options = ["uid=1000,gid=1000"];
   };
-  "/home/michael/mnt/storage" = {
-    device = "/dev/sdb2";
-    options = ["rw" "uid=1000,gid=1000"];
+  "/storage" = {
+    device = "/dev/disk/by-label/Storage";
+    fsType = "ext4";
+  };
+  "/nvmestorage" = {
+    device = "/dev/disk/by-label/NVMeStorage";
+    fsType = "ext4";
   };
 };
 
@@ -382,10 +477,10 @@ fileSystems = {
   # services.openssh.enable = true;
 
   # Open ports in the firewall.
-  networking.firewall.allowedTCPPorts = [ 5000 ];
-  networking.firewall.allowedUDPPorts = [ 5000 ];
+  # networking.firewall.allowedTCPPorts = [ 25565 30000 5000 9994 9995 ];
+  # networking.firewall.allowedUDPPorts = [ 25565 30000 5000 ];
   # Or disable the firewall altogether.
-  # networking.firewall.enable = false;
+  networking.firewall.enable = false;
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions

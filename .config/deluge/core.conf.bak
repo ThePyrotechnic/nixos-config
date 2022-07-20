@@ -14,7 +14,9 @@
     "dht": true,
     "dont_count_slow_torrents": false,
     "download_location": "/home/michael/Downloads",
-    "download_location_paths_list": [],
+    "download_location_paths_list": [
+        "/home/michael/Games/VN"
+    ],
     "enabled_plugins": [],
     "enc_in_policy": 1,
     "enc_level": 2,
@@ -25,9 +27,9 @@
     "listen_interface": "",
     "listen_ports": [
         6881,
-        6891
+        6881
     ],
-    "listen_random_port": null,
+    "listen_random_port": 51650,
     "listen_reuse_port": true,
     "listen_use_sys_port": false,
     "lsd": true,
@@ -39,7 +41,7 @@
     "max_connections_per_torrent": -1,
     "max_download_speed": -1.0,
     "max_download_speed_per_torrent": -1,
-    "max_half_open_connections": 50,
+    "max_half_open_connections": 20,
     "max_upload_slots_global": 4,
     "max_upload_slots_per_torrent": -1,
     "max_upload_speed": -1.0,
@@ -86,7 +88,7 @@
     "sequential_download": false,
     "share_ratio_limit": 2.0,
     "shared": false,
-    "stop_seed_at_ratio": false,
+    "stop_seed_at_ratio": true,
     "stop_seed_ratio": 2.0,
     "super_seeding": false,
     "torrentfiles_location": "/home/michael/Downloads",
