@@ -1,15 +1,25 @@
 [Added Associations]
 application/pdf=okular.desktop;mupdf-2.desktop;
-application/zip=unzip.desktop;
+application/vnd.rar=unrar.desktop;
+application/x-7z-compressed=7z.desktop;
+application/x-compressed-tar=tar.desktop;
+application/x-java-archive=java-4.desktop;java-3.desktop;java-2.desktop;java.desktop;
+application/zip=unzip-2.desktop;unzip.desktop;
 image/gif=meh-2.desktop;
 image/jpeg=feh-2.desktop;meh.desktop;
+image/png=feh-3.desktop;
 text/plain=code.desktop;
 x-scheme-handler/tg=userapp-Telegram Desktop-33J3L1.desktop;userapp-Telegram Desktop-2C5BO1.desktop;
 
 [Default Applications]
 application/pdf=okular.desktop;
-application/zip=unzip.desktop;
+application/vnd.rar=unrar.desktop;
+application/x-7z-compressed=7z.desktop;
+application/x-compressed-tar=tar.desktop;
+application/x-java-archive=java-4.desktop;
+application/zip=unzip-2.desktop;
 image/gif=meh-2.desktop;
 image/jpeg=feh-2.desktop;
+image/png=feh-3.desktop;
 text/plain=code.desktop;
 x-scheme-handler/tg=userapp-Telegram Desktop-2C5BO1.desktop

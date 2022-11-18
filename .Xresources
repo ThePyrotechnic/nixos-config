@@ -1,4 +1,6 @@
-URxvt*font: xft:Source Code Pro:size=10, xft:DejaVu Sans:size=8, xft:Font Awesome 5 Free
+URxvt*font: xft:Source Code Pro:size=10, xft:DejaVu Sans:size=8, xft:Noto Sans CJK JP, xft:Font Awesome 5 Free
+URxvt.inputMethod: ibus
+URxvt.preeditType: OverTheSpot
 
 ! special
 *.foreground:   #c5c8c6

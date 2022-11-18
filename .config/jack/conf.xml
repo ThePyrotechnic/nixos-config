@@ -4,7 +4,7 @@ JACK settings, as persisted by D-Bus object.
 You probably don't want to edit this because
 it will be overwritten next time jackdbus saves.
 -->
-<!-- Wed May 25 00:13:41 2022 -->
+<!-- Sat Oct 29 13:26:32 2022 -->
 <jack>
  <engine>
   <option name="driver">alsa</option>
@@ -20,15 +20,16 @@ it will be overwritten next time jackdbus saves.
   <driver name="firewire">
   </driver>
   <driver name="alsa">
-   <option name="device">hw:USB</option>
-   <option name="capture">hw:USB</option>
-   <option name="playback">hw:USB</option>
+   <option name="device">hw:MK2</option>
+   <option name="capture">hw:MK2</option>
+   <option name="playback">hw:MK2</option>
    <option name="rate">48000</option>
    <option name="hwmeter">false</option>
    <option name="duplex">true</option>
    <option name="softmode">false</option>
    <option name="monitor">false</option>
    <option name="dither">n</option>
+   <option name="outchannels">2</option>
    <option name="shorts">false</option>
   </driver>
   <driver name="loopback">

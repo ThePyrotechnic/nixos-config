@@ -15,6 +15,9 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
   boot.loader.grub.useOSProber = true;
+  boot.kernelModules = [ "kvm-amd" ];
+  
+  virtualisation.libvirtd.enable = true;
 
   networking.hostName = "michael-nixos"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
@@ -41,6 +44,10 @@
       source-code-pro
       font-awesome
       material-icons
+      noto-fonts
+      noto-fonts-emoji noto-fonts-emoji-blob-bin
+      noto-fonts-cjk-sans
+      noto-fonts-cjk-serif
     ];
   };
 
@@ -64,6 +71,8 @@
     COLOR_14 =     "#8abeb7";
     COLOR_7 =      "#c5c8c6";
     COLOR_15 =     "#ffffff";
+
+    EDITOR =	   "vim";
  };
 
   # Select internationalisation properties.
@@ -74,6 +83,11 @@
     "ja_JP.EUC-JP/EUC-JP"
     "ja_JP.UTF-8/UTF-8"
   ];
+  i18n.inputMethod = {
+    enabled = "ibus";
+    ibus.engines = with pkgs.ibus-engines; [ mozc ];
+  };
+
   console = {
     font = "Lat2-Terminus16";
     keyMap = "us";
@@ -145,28 +159,35 @@
 
   # Enable sound.
   sound.enable = true;
-  hardware.pulseaudio.enable = true;
-  hardware.pulseaudio.package = pkgs.pulseaudio.override { jackaudioSupport = true; };
- 
-  # musnix = {
-  #   enable = true;
-  #   alsaSeq.enable = true;  
-  # };
 
-  services.jenkins = {
+  hardware.pulseaudio = {
     enable = true;
+    package = pkgs.pulseaudio.override { jackaudioSupport = true; };
 
-    prefix = "/jenkins";
-    home = "/nvmestorage/jenkins";
+    extraConfig = ''
+      load-module module-udev-detect tsched=0
+    '';
+
+    daemon = {
+      config = {
+        high-priority = "yes";
+        nice-level = -15;
+        realtime-scheduling = "yes";
+        realtime-priority = 50;
+        resample-method = "speex-float-0";
+        default-fragments = 2;
+        default-fragment-size-msec = 2;
+      };
+    };
   };
  
   services.jack = {
     jackd.enable = true;
-    alsa.enable = false;
+    alsa.enable = true;
     loopback = {
-      enable = true;
+      enable = false;
     };
-    jackd.extraOptions = [ "-dalsa" "--device" "hw:MK2" "--rate" "48000"];
+    jackd.extraOptions = [ "-dalsa" "--device" "hw:MK2" "--rate" "48000" ];
   };
 
   # Enable touchpad support (enabled default in most desktopManager).
@@ -182,7 +203,7 @@
   users.users.michael = {
     isNormalUser = true;
     initialPassword = "1234asdf";
-    extraGroups = [ "wheel" "jackaudio" "audio" "docker" "nginx" ];
+    extraGroups = [ "wheel" "jackaudio" "audio" "docker" "nginx" "libvirtd" ];
   };
  
   nixpkgs.config = {
@@ -192,6 +213,17 @@
   programs.steam = {
     enable = true;
   };
+
+  hardware.opentabletdriver = {
+    enable = true;
+    daemon.enable = true;
+  };
+
+  programs.kdeconnect = {
+    enable = true;
+  };
+
+  programs.java.enable = true;
 
   programs.git = {
     enable = true;
@@ -234,6 +266,12 @@
 
   systemd.services.nginx.serviceConfig.ReadOnlyPaths = "/var/www";
 
+  services.mullvad-vpn.enable = true;
+
+  services.unifi = {
+    enable = true;
+  };
+
   services.nginx = {
     enable = true;
     
@@ -250,6 +288,23 @@
             ssl = true;
           }
         ];
+
+        forceSSL = true;
+        useACMEHost = "michaelmanis.com";
+        
+        extraConfig = ''
+          root /var/www/stream;
+        '';
+      };
+
+      "stream.michaelmanis.com" = {
+        listen = [
+          {
+            addr = "0.0.0.0";
+            port = 5000;
+            ssl = true;
+          }
+        ];
         
         forceSSL = true;
         useACMEHost = "michaelmanis.com";
@@ -259,7 +314,7 @@
             proxyPass = "http://127.0.0.1:8080$request_uri";
           };
         };
-      };      
+      };
 
       "5e.michaelmanis.com" = {
         listen = [
@@ -292,6 +347,7 @@
 
         extraConfig = ''
           root /var/www/local;
+          autoindex on;
         '';
       };
 
@@ -338,7 +394,19 @@
   # $ nix search wget
   environment.systemPackages = with pkgs; [
     # CORE
-    vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
+    ((vim_configurable.override {  }).customize {
+      name = "vim";
+      vimrcConfig.packages.myplugins = with pkgs.vimPlugins; {
+        start = [ vim-nix vim-lastplace ];
+        opt = [];
+      };
+      vimrcConfig.customRC = ''
+        set nocompatible
+        set backspace=indent,eol,start
+        syntax on
+      '';
+      }
+    )
     wget
     firefox
     i3
@@ -348,25 +416,26 @@
     deluge
     zip unzip p7zip
     git git-crypt
-    pinentry pinentry-qt
+    pinentry-qt
     gnumake
     cmake
     openssh
     nodejs
     cmake
     gcc
-    clang
-    clang-tools
+    mullvad
 
     # FUN
     dolphin-emu
     frotz
     devilutionx
     lutris
-    polymc
     xivlauncher
     heroic
     legendary-gl
+    mupen64plus
+    osu-lazer
+    prismlauncher
     
     # MESSAGING
     discord
@@ -375,6 +444,8 @@
  
     # TERM
     rxvt-unicode
+    powershell
+    
     # TEXT
     vscode-fhs
     
@@ -410,13 +481,34 @@
     mslink
     trickle
     linuxKernel.packages.linux_5_15.v4l2loopback
+    sdl-jstest
+    kubectl
+    minikube
+    kubernetes-helm
+    xdelta
+    dmidecode
+    lm_sensors
+    psensor
+    drawio
+    kmag
+    libreoffice
+    unixtools.ifconfig
+    jq
+    virt-manager
+    llvmPackages_8.libunwind
 
     # MEDIA
     mpv
     spotify
     audacity
     scrot
-    obs-studio
+    (
+      wrapOBS.override { obs-studio = pkgs.obs-studio; } {
+        plugins = with pkgs.obs-studio-plugins; [
+          obs-vkcapture
+        ];
+      }
+    )
     qjackctl jack_capture
     reaper
     libsForQt5.ffmpegthumbs
@@ -432,6 +524,14 @@
     okular
     pulsemixer
     inkscape
+    (lowPrio helm)  # synthesizer
+    streamlink
+    anki-bin
+    darktable
+    rawtherapee
+    exiftool
+    imagemagick
+    photon-rss
 
     # PYTHON
     (let 
@@ -449,9 +549,13 @@
 boot.supportedFilesystems = [ "ntfs" ];
 
 fileSystems = {
-  "/home/michael/mnt/windows" = {
+  "/winstorage" = {
+    device = "/dev/disk/by-label/WinStorage";
+    options = ["rw" "uid=1000,gid=1000"];
+  };
+  "/windows" = {
     device = "/dev/nvme0n1p3";
-    options = ["uid=1000,gid=1000"];
+    options = ["rw" "uid=1000,gid=1000"];
   };
   "/storage" = {
     device = "/dev/disk/by-label/Storage";
@@ -474,7 +578,10 @@ fileSystems = {
   # List services that you want to enable:
 
   # Enable the OpenSSH daemon.
-  # services.openssh.enable = true;
+  services.openssh = {
+    enable = true;
+    ports = [ 666 ];
+  };
 
   # Open ports in the firewall.
   # networking.firewall.allowedTCPPorts = [ 25565 30000 5000 9994 9995 ];
@@ -488,7 +595,7 @@ fileSystems = {
   # this value at the release version of the first install of this system.
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
-  system.stateVersion = "21.11"; # Did you read the comment?
+  system.stateVersion = "22.05"; # Did you read the comment?
 
 }
 

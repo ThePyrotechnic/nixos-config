@@ -20,10 +20,20 @@ nix-projects
 /.config/legendary
 /.config/Signal
 /.config/cef_user_data
-/.config/deluge/state
-/.config/deluge/archive
-/.config/deluge/gtk3ui_state
 /.config/lutris
+/.config/menus/applications-merged
+/.config/GIMP
+/.config/unity3d
+/.config/deluge
+/.config/photon
+/.config/draw.io
+/.config/darktable
+/.config/ibus
+/.config/kdeconnect
+/.config/libreoffice
+/.config/mozc
+/.config/session
+/go
 
 /.local/share/FoundryVTT
 
@@ -53,3 +63,7 @@ Documents
 **/logs
 **/*.log
 
+# remove any certs / keys
+**/*.pem
+**/*.key
+**/*.cert

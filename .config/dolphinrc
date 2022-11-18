@@ -2,13 +2,13 @@ DP-0 DP-2 Height 2560x1440=761
 DP-0 DP-2 Width 2560x1440=1146
 DP-0 DP-2 XPosition 2560x1440=96
 DP-0 DP-2 YPosition 2560x1440=1734
-State=AAAA/wAAAAD9AAAAAwAAAAAAAAB3AAACvvwCAAAAAvsAAAAWAGYAbwBsAGQAZQByAHMARABvAGMAawAAAAAA/////wAAAAIA////+wAAABQAcABsAGEAYwBlAHMARABvAGMAawEAAAA7AAACvgAAAEsA////AAAAAQAAAAAAAAAA/AIAAAAB+wAAABAAaQBuAGYAbwBEAG8AYwBrAAAAAAD/////AAAAAgD///8AAAADAAAD7QAAALb8AQAAAAH7AAAAGAB0AGUAcgBtAGkAbgBhAGwARABvAGMAawAAAAAAAAAD7QAAAAIA////AAAD/QAAAr4AAAAEAAAABAAAAAgAAAAI/AAAAAEAAAACAAAAAQAAABYAbQBhAGkAbgBUAG8AbwBsAEIAYQByAQAAAAD/////AAAAAAAAAAA=
 
 [CompactMode]
 FontWeight=50
 
 [DetailsMode]
 FontWeight=50
+PreviewSize=16
 
 [General]
 GlobalViewProps=false
@@ -24,30 +24,27 @@ Places Icons Auto-resize=false
 Places Icons Static Size=22
 
 [KPropertiesDialog]
-DP-0 DP-2 Height 2560x1440=477
-DP-0 DP-2 Width 2560x1440=438
+DP-0 DP-2 Height 2560x1440=450
+DP-0 DP-2 Width 2560x1440=476
 
 [MainWindow]
-DP-0 DP-2 Height 2560x1440=687
-DP-0 DP-2 Width 2560x1440=1115
-DP-0 DP-2 XPosition 2560x1440=1252
-DP-0 DP-2 YPosition 2560x1440=1887
+DP-0 DP-2 Height 2560x1440=668
+DP-0 DP-2 Width 2560x1440=1131
+DP-0 DP-2 XPosition 2560x1440=736
+DP-0 DP-2 YPosition 2560x1440=395
 ToolBarsMovable=Disabled
 
 [Open-with settings]
 CompletionMode=1
-History=code,feh,tar -xf ,okular,mupdf-gl,mupdf,unzip,meh
+History=code,java -jar,java,feh,tar -xf,7z x,unrar x,unzip,tar -xf ,okular,mupdf-gl,mupdf,meh
 
 [PreviewSettings]
 Plugins=directorythumbnail,imagethumbnail,jpegthumbnail,windowsimagethumbnail,svgthumbnail,textthumbnail,ffmpegthumbs
-
-[Search]
-Location=Everywhere
 
 [SettingsDialog]
 DP-0 DP-2 Height 2560x1440=463
 DP-0 DP-2 Width 2560x1440=640
 
 [ViewPropertiesDialog]
-DP-0 DP-2 Height 2560x1440=676
+DP-0 DP-2 Height 2560x1440=451
 DP-0 DP-2 Width 2560x1440=385

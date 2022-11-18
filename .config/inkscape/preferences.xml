@@ -125,8 +125,8 @@
          id="rect"
          style="fill:blue;"
          usecurrent="1"
-         width="184.889"
-         height="3190.54" />
+         width="104477"
+         height="104477" />
       <eventcontext
          id="3dbox"
          style="stroke:none;stroke-linejoin:round;"
@@ -161,12 +161,16 @@
          style="fill:red;"
          end="0"
          start="0"
-         usecurrent="1" />
+         usecurrent="1"
+         rx="160.406"
+         ry="160.406" />
       <eventcontext
          id="star"
-         magnitude="5"
+         magnitude="6"
          style="fill:yellow;"
-         usecurrent="1" />
+         usecurrent="1"
+         proportion="0.5"
+         isflatsided="1" />
       <eventcontext
          id="spiral"
          style="fill:none;stroke:black"
@@ -333,12 +337,12 @@
        show_outline="0"
        sculpting_profile="1"
        single_node_transform_handles="0"
-       show_transform_handles="0"
+       show_transform_handles="1"
        live_outline="1"
        live_objects="1"
        show_helperpath="0"
-       x="0"
-       y="0"
+       x="521.887"
+       y="607.117"
        edit_clipping_paths="0"
        edit_masks="0" />
     <eventcontext
@@ -530,7 +534,7 @@
   </group>
   <group
      id="colorselector"
-     page="0" />
+     page="1" />
   <group
      id="embedded">
     <group
@@ -558,7 +562,8 @@
        applyseparately="0"
        rotateCounterClockwise="1" />
     <group
-       id="align" />
+       id="align"
+       align-to="4" />
     <group
        id="xml"
        h="500"
@@ -576,7 +581,7 @@
     <group
        id="preferences"
        state="1"
-       page="0" />
+       page="47" />
     <group
        id="gradienteditor" />
     <group
@@ -588,10 +593,10 @@
        path="">
       <group
          id="exportarea"
-         value="page" />
+         value="selection" />
       <group
          id="defaultxdpi"
-         value="72" />
+         value="96" />
     </group>
     <group
        id="save_as"
@@ -609,16 +614,17 @@
     <group
        id="open"
        enable_preview="1"
-       path="" />
+       path="/home/michael/Documents/stream/" />
     <group
        id="import"
        enable_preview="1"
-       path=""
+       path="/home/michael/Documents/stream/"
        ask="1"
        ask_svg="1"
-       link="link"
+       link="embed"
        scale="auto"
-       import_mode_svg="include" />
+       import_mode_svg="include"
+       forcexdpi="0" />
     <group
        id="debug"
        redirect="0" />
@@ -667,7 +673,8 @@
        add-label-comments="0" />
   </group>
   <group
-     id="options">
+     id="options"
+     onimport="0">
     <group
        id="renderingcache"
        size="512" />
@@ -700,7 +707,7 @@
        value="12" />
     <group
        id="cursortolerance"
-       value="8.0" />
+       value="8" />
     <group
        id="dragtolerance"
        value="4.0" />
@@ -951,10 +958,11 @@
        unitType="2" />
   </group>
   <group
-     id="extensions" />
+     id="extensions"
+     org.inkscape.input.gdkpixbuf.png.scale="optimizeQuality" />
   <group
      id="desktop"
-     style="fill:#aa0000;stroke-width:0.57734929;-inkscape-stroke:none;stop-color:#000000">
+     style="fill:none;stop-color:#000000;stroke-linejoin:round;stroke-linecap:round;stroke:#000000;paint-order:markers fill stroke;stroke-width:19.99999963;-inkscape-stroke:none">
     <group
        width="640"
        height="480"

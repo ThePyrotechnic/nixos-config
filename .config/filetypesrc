@@ -1,6 +1,11 @@
 [EmbedSettings]
 embed-application/pdf=false
+embed-application/vnd.rar=false
+embed-application/x-7z-compressed=false
+embed-application/x-compressed-tar=false
+embed-application/x-java-archive=false
 embed-application/zip=false
 embed-image/gif=false
 embed-image/jpeg=false
+embed-image/png=false
 embed-text/plain=false
