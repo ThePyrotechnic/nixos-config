@@ -33,6 +33,8 @@ nix-projects
 /.config/libreoffice
 /.config/mozc
 /.config/session
+/.config/dconf
+/.config/tcd
 /go
 
 /.local/share/FoundryVTT
